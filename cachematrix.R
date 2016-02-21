@@ -6,15 +6,15 @@
 # Creating a list containing a function to (1) set and get the value of the matrix and (2)set and get the value of inverse of the matrix.
 
 makeCacheMatrix <- function(x = matrix()) {
-    inv <- NULL
-    set <- function(y) {
-        x <<- y
-        inv <<- NULL
+    inv<-NULL
+    set<-function(y) {
+        x<<-y
+        inv<<-NULL
     }
-    get <- function() x
-    setinverse <- function(inverse) inv <<- inverse
-    getinverse <- function() inv
-    list(set=set, get=get, setinverse=setinverse, getinverse=getinverse)
+    get<-function() x
+    setinverse<-function(inverse) inv<<-inverse
+    getinverse<-function() inv
+    list(set=set,get=get,setinverse=setinverse,getinverse=getinverse)
 }
 
 
@@ -25,7 +25,7 @@ makeCacheMatrix <- function(x = matrix()) {
 cacheSolve <- function(x, ...) {
     inv<-x$getinv()
     if(!is.null(inv)) {
-        message("Data being cached..")
+        message("Data already being cached, getting it now..")
         return(inv)
     }
     data<-x$get()
@@ -33,3 +33,21 @@ cacheSolve <- function(x, ...) {
     x$setinv(inv)
     inv
 }
+
+# Output sample:
+#
+# > x = rbind(c(50, 100), c(100,50))
+# > m = makeCacheMatrix(x)
+# > m$get()
+#      [,1] [,2]
+# [1,]   50  100
+# [2,]  100   50
+# > cacheSolve(m)
+#              [,1]         [,2]
+# [1,] -0.006666667  0.013333333
+# [2,]  0.013333333 -0.006666667
+# > cacheSolve(m)
+# Data already being cached, getting it now..
+#              [,1]         [,2]
+# [1,] -0.006666667  0.013333333
+# [2,]  0.013333333 -0.006666667
